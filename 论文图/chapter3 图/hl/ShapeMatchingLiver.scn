@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Node 	 name="root"  gravity="0 0 0"  dt="0.05"  >
+	<VisualStyle name="visualStyle1"  displayFlags="showBehaviorModels showForceFields" />
+	<DefaultPipeline name="defaultPipeline1"  verbose="0"  draw="0" />
+	<BruteForceDetection name="N2" />
+	<MinProximityIntersection name="Proximity"  alarmDistance="0.8"  contactDistance="0.5" />
+	<DefaultContactManager name="Response"  response="default" />
+	<Node 	 name="dragon"  >
+		<EulerImplicitSolver name="cg_odesolver"  printLog="0" />
+		<CGLinearSolver template="GraphScattered" name="linear solver"  iterations="25"  tolerance="1e-009"  threshold="1e-009" />
+		<MeshObjLoader name="loader"  filename="hl/3.obj"  materials="Material__27 Diffuse 1 0.588 0.588 0.588 1 Ambient 1 0.588 0.588 0.588 1 Specular 1 0 0 0 1 Emissive 0 0 0 0 0 Shininess 1 10 Texture 0 DEFAULT
+Bump 0 DEFAULT
+" />
+		<MeshTopology name="topo"  position="@loader.position"  edges="@loader.edges"  triangles="@loader.triangles"  quads="@loader.quads"  tetrahedra="@loader.tetras"  hexahedra="@loader.hexas" />
+		<MechanicalObject template="Vec3d" name="dofs"  position="@loader.position"  velocity="0 0 0"  force="0 0 0"  externalForce="0 0 0"  restScale="1"  translation="0 0 10"  scale3d="1 1 1" />
+		<UniformMass template="Vec3d" name="uniformMass1"  mass="3" />
+		<ClusteringEngine template="Vec3d" name="clustering"  useTopo="1"  radius="1"  fixedRadius="1"  number="20"  position="@topo.position" />
+		<ShapeMatching template="Vec3d" name="shapeMatching"  iterations="1"  position="@dofs.position"  cluster="@clustering.cluster" />
+		<PositionBasedDynamicsConstraint template="Vec3d" name="positionBasedDynamicsConstraint1"  stiffness="1"  position="@shapeMatching.targetPosition" />
+		<Node 	 name="Visu"  >
+			<OglModel template="ExtVec3f" name="Visual"  fileMesh="hl/3.obj"  texturename="hl/liver11_proc.bmp"  translation="0 0 10"  material="Default Diffuse 1 1 0 0 1 Ambient 1 0.2 0 0 1 Specular 0 1 0 0 1 Emissive 0 1 0 0 1 Shininess 0 45 Texture 0  0  0  0 DEFAULT
+Bump 0  0  0  0 DEFAULT
+"  primitiveType="DEFAULT"  blendEquation="GL_FUNC_ADD"  sfactor="GL_SRC_ALPHA"  dfactor="GL_ONE_MINUS_SRC_ALPHA" />
+			<IdentityMapping template="Vec3d,ExtVec3f" name="identityMap1"  input="@.."  output="@Visual" />
+		</Node>
+	</Node>
+</Node>

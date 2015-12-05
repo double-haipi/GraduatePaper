@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Node 	 name="root"  gravity="0 -0.2 0"  dt="0.02"  >
+	<VisualStyle name="visualStyle1"  displayFlags="showForceFields" />
+	<BackgroundSetting color="1 1 1" />
+	<Node 	 name="Liver"  gravity="0 -0.2 0"  >
+		<EulerImplicitSolver name="cg_odesolver"  printLog="0"  rayleighStiffness="0.1" />
+		<CGLinearSolver template="GraphScattered" name="linear solver"  iterations="25"  tolerance="1e-009"  threshold="1e-009" />
+		<MeshTopology name="mesh"  fileTopology="hl/tet.msh" />
+		<MechanicalObject template="Vec3d" name="dofs"  position="0 0 0"  velocity="0 0 0"  force="0 0 0"  externalForce="0 0 0"  restScale="1" />
+		<UniformMass template="Vec3d" name="mass" />
+		<FixedConstraint template="Vec3d" name="fixedConstraint0"  indices="0 1 2 8 16 60 81 82 84 117 118 145 187 226 263 264 272 292 308 309 418 420 459 495 519 523 530 554 560 563 584 608 624 627 629 658 661 668 669 675 692 699 702 728 729 731 740 749 766 782 847 853 854 860 863 911 917 945 969 972 974 1005 1007 1041 1047 1059 1084 1086 1096 1097 1121 1122 1123 1132 1154 1556" />
+		<Node 	 name="Visu"  gravity="0 -9.81 0"  >
+			<OglModel template="ExtVec3f" name="VisualModel"  fileMesh="hl/3.obj"  texturename="hl/Liver11_proc.bmp"  material="Default Diffuse 0 1 0 0 1 Ambient 1 0.2 0 0 1 Specular 0 1 0 0 1 Emissive 0 1 0 0 1 Shininess 0 45 Texture 0  0  0  0  0  0 DEFAULT
+Bump 0  0  0  0  0  0 DEFAULT
+"  primitiveType="DEFAULT"  blendEquation="GL_FUNC_ADD"  sfactor="GL_SRC_ALPHA"  dfactor="GL_ONE_MINUS_SRC_ALPHA" />
+			<BarycentricMapping template="Vec3d,ExtVec3f" name="visual mapping"  input="@.."  output="@VisualModel" />
+		</Node>
+		<MeshSpringForceField template="Vec3d" name="Springs"  stiffness="180"  linesStiffness="4500"  trianglesStiffness="4500"  quadsStiffness="4500"  tetrahedraStiffness="4500"  cubesStiffness="4500"  object1="@./"  object2="@./" />
+	</Node>
+</Node>
